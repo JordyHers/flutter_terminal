@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:terminal/utils/config/size_config.dart';
 class HomePage extends StatefulWidget {
@@ -11,13 +13,23 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final input = TextEditingController();
+    final controller = StreamController<String>();
+    List<String> past =[];
+    @override
+    void dispose() {
+    controller.close();
+    super.dispose();
+    }
 
-    Future<void> submit(TextEditingController input) async{
-      switch(input.text){
+    Future<void> submit(input) async{
+      switch(input){
         case 'ls': print('ls chosen');
           break;
         case 'cd': print('cd chosen');
         break;
+        case 'clear': past.clear();
+        break;
+
         default:
           break;
 
@@ -55,12 +67,42 @@ class _HomePageState extends State<HomePage> {
                   Spacer(),
                 ],
               ),),
+
+                StreamBuilder(
+                  stream: controller.stream,
+                  builder: (context, AsyncSnapshot<String> snapshot){
+                    if(snapshot.hasData){
+                      return   ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: past.length,
+                          itemBuilder: (context,index)
+                          {
+                            return RichText(
+                              text: TextSpan(
+                                text: '-> ~',
+                                style: TextStyle(color: Colors.greenAccent,fontSize: 13),
+                                children: <TextSpan>[
+                                  TextSpan(text: past[index], style: TextStyle(color: Colors.red,fontSize: 13)),
+                                ],
+                              ),
+                            );
+                          });
+                    }else{
+                      return Opacity(opacity: 0);
+                    }
+
+                  },
+                ),
+
                 TextField(
                   controller: input,
                   textInputAction: TextInputAction.done,
                   keyboardType: TextInputType.text,
-                  onEditingComplete: (){
-                    submit(input);
+                  onEditingComplete: () {
+                    past.add('${input.text}');
+                    controller.add('-> ~ ${input.text}');
+                   submit(input.text);
                     input.clear();
                   },
                   autofocus: true,
@@ -70,6 +112,7 @@ class _HomePageState extends State<HomePage> {
                       prefixText: '-> ~',
                       hintStyle: TextStyle(color: Colors.greenAccent)
                   ),),
+
 
 
               ]
