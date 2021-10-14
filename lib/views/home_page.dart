@@ -1,9 +1,9 @@
 import 'dart:async';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:terminal/constants/strings.dart';
+import 'package:terminal/service/service.dart';
 import 'package:terminal/utils/config/size_config.dart';
-import 'package:terminal/utils/theme/colors.dart';
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
 
@@ -17,9 +17,10 @@ class _HomePageState extends State<HomePage> {
     final input = TextEditingController();
     final controller = StreamController<String>();
     List<String> past =[];
+    final service = Service();
     String text = '';
-
-
+    String ip = '';
+    String model = '' ;
 
     Future<void> submit(input) async{
       const String app = 'APPLICATIONS';
@@ -55,6 +56,7 @@ class _HomePageState extends State<HomePage> {
           past.add(Strings.noteText);
         break;
         case 'set':
+          past.add(model);
           text= 'settings/';
           print('settings chosen');
           past.add(Strings.setText);
@@ -75,87 +77,93 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(10),
-          margin:  EdgeInsets.only(top:50),
-          height:SizeConfig.getHeight(context),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children:[
-                Text('Last login: Sat Oct  9 16:21:44 on console',style: TextStyle(color: Colors.white),
-                ),
+        child: FutureBuilder(
+            future: service.getIpAddress().then((value) => ip = value).whenComplete(() => service.getPhoneModelAndroid().then((result) => model = result)),
+            builder:(context, AsyncSnapshot<String> snapshot) {
+           return Container(
+      padding: EdgeInsets.all(10),
+      margin:  EdgeInsets.only(top:50),
+      height:SizeConfig.getHeight(context),
+      child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children:[
+              Text('Last login: Sat Oct  9 16:21:44 on console',style: TextStyle(color: Colors.white),
+              ),
+              SizedBox(height: 10),
+              Text('IP Address: $ip',style: TextStyle(color: Colors.white),
+              ),
               Container(
                 height: 70,
                 padding: EdgeInsets.only(top:5,left: 20),
                 margin: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                border: Border.all(width: 2,color: Colors.white)
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(" (　-_･) ︻デ═一 ▸    ¯\_(ツ)_/¯",style: TextStyle(color: Colors.white,fontSize: 20),
-                  ),
-                  Spacer(),
-                  Text('-h to get list of commands',style: TextStyle(color: Colors.grey,fontSize: 11)),
-                  Spacer(),
-                ],
-              ),),
-
-                StreamBuilder(
-                  stream: controller.stream,
-                  builder: (context, AsyncSnapshot<String> snapshot){
-                    if(snapshot.hasData){
-                      return   ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: past.length,
-                          itemBuilder: (context,index)
-                          {
-                            return Padding(
-                              padding: const EdgeInsets.only(top:8.0),
-                              child: RichText(
-
-                                text: TextSpan(
-                                  text: '-> ~',
-                                  style: TextStyle(color: Colors.greenAccent,fontSize: 13),
-                                  children: <TextSpan>[
-                                    TextSpan(text: past[index], style: TextStyle(color: Colors.white,fontSize: 13,fontFamily: 'UbuntuMono-Regular')),
-                                  ],
-                                ),
-                              ),
-                            );
-                          });
-                    }else{
-                      return Opacity(opacity: 0);
-                    }
-
-                  },
+                    border: Border.all(width: 2,color: Colors.white)
                 ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(" (　-_･) ︻デ═一 ▸    ¯\_(ツ)_/¯",style: TextStyle(color: Colors.white,fontSize: 20),
+                    ),
+                    Spacer(),
+                    Text('-h to get list of commands',style: TextStyle(color: Colors.grey,fontSize: 11)),
+                    Spacer(),
+                  ],
+                ),),
 
-                TextField(
-                  controller: input,
-                  textInputAction: TextInputAction.done,
-                  keyboardType: TextInputType.text,
-                  onEditingComplete: () {
-                    controller.add('-> ~ ${input.text}');
-                    submit(input.text);
-                    input.clear();
-                  },
-                  autofocus: true,
-                  keyboardAppearance: Brightness.dark,
-                  style: TextStyle(color: Colors.white),
-                  cursorColor: Colors.greenAccent,
-                  decoration: InputDecoration(
-                      prefixText: '-> ~$text',
-                      hintStyle: TextStyle(color: Colors.greenAccent)
-                  ),),
-              ]
-          )),
-      ),
+              StreamBuilder(
+                stream: controller.stream,
+                builder: (context, AsyncSnapshot<String> snapshot){
+                  if(snapshot.hasData){
+                    return   ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: past.length,
+                        itemBuilder: (context,index)
+                        {
+                          return Padding(
+                            padding: const EdgeInsets.only(top:8.0),
+                            child: RichText(
 
+                              text: TextSpan(
+                                text: '-> ~',
+                                style: TextStyle(color: Colors.greenAccent,fontSize: 13),
+                                children: <TextSpan>[
+                                  TextSpan(text: past[index], style: TextStyle(color: Colors.white,fontSize: 13,fontFamily: 'UbuntuMono-Regular')),
+                                ],
+                              ),
+                            ),
+                          );
+                        });
+                  }else{
+                    return Opacity(opacity: 0);
+                  }
+
+                },
+              ),
+
+              TextField(
+                controller: input,
+                textInputAction: TextInputAction.done,
+                keyboardType: TextInputType.text,
+                onEditingComplete: () {
+                  controller.add('-> ~ ${input.text}');
+                  submit(input.text);
+                  input.clear();
+                },
+                autofocus: true,
+                keyboardAppearance: Brightness.dark,
+                style: TextStyle(color: Colors.white),
+                cursorColor: Colors.greenAccent,
+                decoration: InputDecoration(
+                    prefixText: '-> ~$text',
+                    hintStyle: TextStyle(color: Colors.greenAccent)
+                ),),
+            ]
+      ));
+            })
+        ),
     );
   }
 }

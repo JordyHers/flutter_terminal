@@ -28,7 +28,7 @@ class Strings{
       "___________________");
   static final setText = ("\n"
       "\n"
-      "\n"
+      " - PHONE MODEL\n"
       " - CHANGE TEXT COLOR \n"
       " - CHANGE TEXT FONT \n "
       "- CHANGE TEXT SIZE \n "
@@ -40,7 +40,6 @@ class Strings{
       "\n"
       "_____________________");
   static final lsText = ("\n"
-      "\n"
       "\n"
       " - APPLICATIONS \n"
       " - IMAGES \n "
