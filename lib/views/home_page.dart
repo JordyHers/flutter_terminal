@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:terminal/constants/strings.dart';
 import 'package:terminal/utils/config/size_config.dart';
+import 'package:terminal/utils/theme/colors.dart';
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
 
@@ -15,26 +17,60 @@ class _HomePageState extends State<HomePage> {
     final input = TextEditingController();
     final controller = StreamController<String>();
     List<String> past =[];
-    @override
-    void dispose() {
-    controller.close();
-    super.dispose();
-    }
+    String text = '';
+
+
 
     Future<void> submit(input) async{
+      const String app = 'APPLICATIONS';
       switch(input){
-        case 'ls': print('ls chosen');
+        case 'h':
+          text = 'help/';
+          print('help chosen');
+        past.add(Strings.helpText);
           break;
-        case 'cd': print('cd chosen');
+        case 'cd $app':
+          text = 'cd/';
+          print('cd chosen');
+        past.add('${Strings.cdText} $input');
+          break;
+          case 'ls':
+          text = 'ls/';
+          print('cd chosen');
+        past.add(Strings.lsText);
+          break;
+        case 'cts':
+          text= 'contacts/';
+          print('contacts chosen');
+          past.add(Strings.contText);
         break;
-        case 'clear': past.clear();
+        case 'msg':
+          text = input;
+          print('messages chosen');
+          past.add(Strings.msgText);
+        break;
+        case 'not':
+          text ='notes/';
+          print('notes chosen');
+          past.add(Strings.noteText);
+        break;
+        case 'set':
+          text= 'settings/';
+          print('settings chosen');
+          past.add(Strings.setText);
+          break;
+        case 'clear':
+          print('cd chosen');
+          past.clear();
         break;
 
         default:
+        past.add('successfuly saved');
           break;
 
       }
     }
+
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -63,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                   Text(" (　-_･) ︻デ═一 ▸    ¯\_(ツ)_/¯",style: TextStyle(color: Colors.white,fontSize: 20),
                   ),
                   Spacer(),
-                  Text('-ls  to get list of commands',style: TextStyle(color: Colors.grey,fontSize: 11)),
+                  Text('-h to get list of commands',style: TextStyle(color: Colors.grey,fontSize: 11)),
                   Spacer(),
                 ],
               ),),
@@ -78,13 +114,17 @@ class _HomePageState extends State<HomePage> {
                           itemCount: past.length,
                           itemBuilder: (context,index)
                           {
-                            return RichText(
-                              text: TextSpan(
-                                text: '-> ~',
-                                style: TextStyle(color: Colors.greenAccent,fontSize: 13),
-                                children: <TextSpan>[
-                                  TextSpan(text: past[index], style: TextStyle(color: Colors.red,fontSize: 13)),
-                                ],
+                            return Padding(
+                              padding: const EdgeInsets.only(top:8.0),
+                              child: RichText(
+
+                                text: TextSpan(
+                                  text: '-> ~',
+                                  style: TextStyle(color: Colors.greenAccent,fontSize: 13),
+                                  children: <TextSpan>[
+                                    TextSpan(text: past[index], style: TextStyle(color: Colors.white,fontSize: 13,fontFamily: 'UbuntuMono-Regular')),
+                                  ],
+                                ),
                               ),
                             );
                           });
@@ -100,21 +140,18 @@ class _HomePageState extends State<HomePage> {
                   textInputAction: TextInputAction.done,
                   keyboardType: TextInputType.text,
                   onEditingComplete: () {
-                    past.add('${input.text}');
                     controller.add('-> ~ ${input.text}');
-                   submit(input.text);
+                    submit(input.text);
                     input.clear();
                   },
                   autofocus: true,
+                  keyboardAppearance: Brightness.dark,
                   style: TextStyle(color: Colors.white),
                   cursorColor: Colors.greenAccent,
                   decoration: InputDecoration(
-                      prefixText: '-> ~',
+                      prefixText: '-> ~$text',
                       hintStyle: TextStyle(color: Colors.greenAccent)
                   ),),
-
-
-
               ]
           )),
       ),
