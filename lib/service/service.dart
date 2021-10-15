@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dart_ipify/dart_ipify.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 
@@ -9,14 +11,18 @@ class Service{
     return ipv4;
   }
 
-  Future<String> getPhoneModelAndroid() async {
+  Future<String?> getPhoneModelAndroid() async {
+    String? model;
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    print('Running on ${androidInfo.device}');  // e.g. "Moto G (4)"
-
-    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-    print('Running on ${iosInfo.utsname.machine}');
-
-    return androidInfo.device;
+   if(Platform.isIOS){
+     IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+     print('Running on ${iosInfo.utsname.machine}');
+     model = iosInfo.utsname.machine;
+    } else{
+     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+     print('Running on ${androidInfo.device}');// e.g. "Moto G (4)"
+     model='${androidInfo.device}';
+    }
+    return model;
   }
 }

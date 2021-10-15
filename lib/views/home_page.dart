@@ -1,169 +1,235 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:terminal/constants/strings.dart';
+import 'package:terminal/repository/repository.dart';
 import 'package:terminal/service/service.dart';
-import 'package:terminal/utils/config/size_config.dart';
+
 class HomePage extends StatefulWidget {
-  const HomePage({Key key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
-  Widget build(BuildContext context) {
-    final input = TextEditingController();
-    final controller = StreamController<String>();
-    List<String> past =[];
-    final service = Service();
-    String text = '';
-    String ip = '';
-    String model = '' ;
 
-    Future<void> submit(input) async{
-      const String app = 'APPLICATIONS';
-      switch(input){
-        case 'h':
+  DateTime dt = new DateTime.now();
+  final input = TextEditingController();
+  final controller = StreamController<String>();
+  List<String> past = [];
+  List<String> contacts = [];
+  final service = Service();
+  final repository = Repository();
+  String text = '';
+  String ip = '';
+  String model = '';
+  String? message;
+  String? note;
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    service.getPhoneModelAndroid().then((value) => model = value!);
+    repository.getContacts().then((value) {
+      value.forEach(
+            (element) {
+          contacts.add(element.displayName!);
+          element.displayName!;
+          print(element.displayName);
+        },
+      );
+    });
+  }
+
+  Future<void> submit(TextEditingController input) async {
+    switch (input.text) {
+      case 'h':
+        setState(() {
           text = 'help/';
-          print('help chosen');
+        });
+        print('help chosen');
         past.add(Strings.helpText);
-          break;
-        case 'cd $app':
-          text = 'cd/';
-          print('cd chosen');
-        past.add('${Strings.cdText} $input');
-          break;
-          case 'ls':
+        break;
+      case 'ls':
+        print('ls chosen');
+        setState(() {
           text = 'ls/';
-          print('cd chosen');
+        });
         past.add(Strings.lsText);
-          break;
-        case 'cts':
-          text= 'contacts/';
-          print('contacts chosen');
-          past.add(Strings.contText);
         break;
-        case 'msg':
-          text = input;
-          print('messages chosen');
+      case 'cts':
+        setState(() {
+          text = 'contacts/';
+        });
+        print('contacts chosen');
+        past.addAll(contacts);
+        break;
+      case 'set':
+        past.add(model);
+        setState(() {
+          text = 'settings/';
+        });
+        print('settings chosen');
+        past.add(Strings.setText);
+        break;
+      case 'get-m':
+        await repository.getMessage(0).then((value) => message = value!);
+        past.add(message!);
+        break;
+      case 'get-n':
+        await repository.getNotes(0).then((value) => note = value!);
+        past.add(note!);
+        break;
+      case 'clear':
+        print('cd chosen');
+        setState(() {
+          text='';
+        });
+        past.clear();
+        break;
+      default:
+        if(input.text.contains('cd')){
+          setState(() {
+            text = '${input.text.replaceAll('cd','')}';
+          });
+          print('cd chosen');
+          past.add('${Strings.cdText} ${input.text}');
+        }
+        else if (input.text.contains('msg')) {
+          repository.saveMessage(input.text);
+          text = 'messages/';
+          print('message chosen');
           past.add(Strings.msgText);
-        break;
-        case 'not':
-          text ='notes/';
+        } else if (input.text.contains('not')) {
+          repository.saveNotes(input.text);
+          text = 'notes/';
           print('notes chosen');
           past.add(Strings.noteText);
-        break;
-        case 'set':
-          past.add(model);
-          text= 'settings/';
-          print('settings chosen');
-          past.add(Strings.setText);
-          break;
-        case 'clear':
-          print('cd chosen');
-          past.clear();
-        break;
+        } else {
+          past.add(Strings.errorText);
+        }
 
-        default:
-        past.add('successfuly saved');
-          break;
-
-      }
+        break;
     }
+  }
 
 
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
-        child: FutureBuilder(
-            future: service.getIpAddress().then((value) => ip = value).whenComplete(() => service.getPhoneModelAndroid().then((result) => model = result)),
-            builder:(context, AsyncSnapshot<String> snapshot) {
-           return Container(
-      padding: EdgeInsets.all(10),
-      margin:  EdgeInsets.only(top:50),
-      height:SizeConfig.getHeight(context),
-      child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children:[
-              Text('Last login: Sat Oct  9 16:21:44 on console',style: TextStyle(color: Colors.white),
-              ),
-              SizedBox(height: 10),
-              Text('IP Address: $ip',style: TextStyle(color: Colors.white),
-              ),
-              Container(
-                height: 70,
-                padding: EdgeInsets.only(top:5,left: 20),
-                margin: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    border: Border.all(width: 2,color: Colors.white)
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(" (　-_･) ︻デ═一 ▸    ¯\_(ツ)_/¯",style: TextStyle(color: Colors.white,fontSize: 20),
-                    ),
-                    Spacer(),
-                    Text('-h to get list of commands',style: TextStyle(color: Colors.grey,fontSize: 11)),
-                    Spacer(),
-                  ],
-                ),),
-
-              StreamBuilder(
-                stream: controller.stream,
-                builder: (context, AsyncSnapshot<String> snapshot){
-                  if(snapshot.hasData){
-                    return   ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: past.length,
-                        itemBuilder: (context,index)
-                        {
-                          return Padding(
-                            padding: const EdgeInsets.only(top:8.0),
-                            child: RichText(
-
-                              text: TextSpan(
-                                text: '-> ~',
-                                style: TextStyle(color: Colors.greenAccent,fontSize: 13),
-                                children: <TextSpan>[
-                                  TextSpan(text: past[index], style: TextStyle(color: Colors.white,fontSize: 13,fontFamily: 'UbuntuMono-Regular')),
-                                ],
-                              ),
+        scrollDirection: Axis.vertical,
+          physics: ScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+          child: FutureBuilder(
+              future: service
+                  .getIpAddress()
+                  .then((value) => ip = value),
+              builder: (context, AsyncSnapshot<String> snapshot) {
+                return Container(
+                    padding: EdgeInsets.all(10),
+                    margin: EdgeInsets.only(top: 50),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            'Last login: ${dt.day}/${dt.month}/${dt.year} ${dt.hour}:${dt.minute}:${dt.second} on console',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            'IP Address: $ip',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Container(
+                            height: 70,
+                            padding: EdgeInsets.only(top: 5, left: 20),
+                            margin: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(width: 2, color: Colors.white)),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  Strings.header,
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                                Spacer(),
+                                Text(Strings.headerText,
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 11)),
+                                Spacer(),
+                              ],
                             ),
-                          );
-                        });
-                  }else{
-                    return Opacity(opacity: 0);
-                  }
-
-                },
-              ),
-
-              TextField(
-                controller: input,
-                textInputAction: TextInputAction.done,
-                keyboardType: TextInputType.text,
-                onEditingComplete: () {
-                  controller.add('-> ~ ${input.text}');
-                  submit(input.text);
-                  input.clear();
-                },
-                autofocus: true,
-                keyboardAppearance: Brightness.dark,
-                style: TextStyle(color: Colors.white),
-                cursorColor: Colors.greenAccent,
-                decoration: InputDecoration(
-                    prefixText: '-> ~$text',
-                    hintStyle: TextStyle(color: Colors.greenAccent)
-                ),),
-            ]
-      ));
-            })
-        ),
+                          ),
+                          StreamBuilder(
+                            stream: controller.stream,
+                            builder: (context, AsyncSnapshot<String> snapshot) {
+                              if (snapshot.hasData) {
+                                return ListView.builder(
+                                    physics: NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemCount: past.length,
+                                    itemBuilder: (context, index) {
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 8.0),
+                                        child: RichText(
+                                          text: TextSpan(
+                                            text: '-> ~',
+                                            style: TextStyle(
+                                                color: Colors.greenAccent,
+                                                fontSize: 13),
+                                            children: <TextSpan>[
+                                              TextSpan(
+                                                  text: past[index],
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 13,
+                                                      fontFamily:
+                                                          'UbuntuMono-Regular')),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    });
+                              } else {
+                                return Opacity(opacity: 0);
+                              }
+                            },
+                          ),
+                          TextField(
+                            controller: input,
+                            textInputAction: TextInputAction.done,
+                            keyboardType: TextInputType.text,
+                            maxLines: 5,
+                            onEditingComplete: () {
+                              if(input.text.isNotEmpty){
+                                controller.add('-> ~ ${input.text}');
+                                submit(input);
+                                input.clear();
+                              }
+                            },
+                            autofocus: true,
+                            keyboardAppearance: Brightness.dark,
+                            style: TextStyle(color: Colors.white),
+                            cursorColor: Colors.greenAccent,
+                            decoration: InputDecoration(
+                                prefixText: '-> ~$text',
+                                hintStyle:
+                                    TextStyle(color: Colors.greenAccent)),
+                          ),
+                        ]));
+              })),
     );
   }
 }

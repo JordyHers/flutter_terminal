@@ -11,6 +11,8 @@ class Strings{
       "- not --- take notes \n "
       "- clear --- clear terminal \n "
       "- set --- settings of the app \n "
+      "- get-m --- display messages\n "
+      "- get-n --- display notes \n "
       "\n"
       "____________________________");
   static final contText = ("\n"
@@ -27,7 +29,6 @@ class Strings{
       "\n"
       "___________________");
   static final setText = ("\n"
-      "\n"
       " - PHONE MODEL\n"
       " - CHANGE TEXT COLOR \n"
       " - CHANGE TEXT FONT \n "
@@ -51,6 +52,17 @@ class Strings{
       "_____________________");
 
   static final cdText = ' > ';
-  static final msgText = ' > messages activated >> TAP YOUR MESSAGE << ';
-  static final noteText = ' > notes activated >> TAKE NOTES << ';
+  static final msgText = ' > messages >> SAVED << ';
+  static final noteText = ' > notes activated >> SAVED << ';
+  static final errorText = 'NO COMMAND FOUND';
+
+
+
+  ///_____________UI________________
+  static final header = " (　-_･) ︻デ═一 ▸    ¯\\_(ツ)_/¯";
+  static final headerText = '-h to get list of commands';
+
+
+
+
 }
