@@ -55,8 +55,8 @@ class Repository implements Rep {
          contacts = await ContactsService.getContacts();
     } else{
       await Permission.contacts.request();
-      contacts = await ContactsService.getContacts();
-      print('ACCESS NOT GRANTED');    }
+      contacts = await ContactsService.getContacts().whenComplete(() => print('ACCESS HAS BEEN GRANTED'));
+       }
     return contacts;
   }
 }
