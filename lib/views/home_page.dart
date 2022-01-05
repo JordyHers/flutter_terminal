@@ -211,7 +211,7 @@ class _HomePageState extends State<HomePage> {
                             controller: input,
                             textInputAction: TextInputAction.done,
                             keyboardType: TextInputType.text,
-                            maxLines: 5,
+                            maxLines: 2,
                             onEditingComplete: () {
                               if(input.text.isNotEmpty){
                                 controller.add('-> ~ ${input.text}');
@@ -224,6 +224,12 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(color: Colors.white),
                             cursorColor: Colors.greenAccent,
                             decoration: InputDecoration(
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                ),
                                 prefixText: '-> ~$text',
                                 hintStyle:
                                     TextStyle(color: Colors.greenAccent)),
