@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -14,7 +15,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   DateTime dt = new DateTime.now();
   final input = TextEditingController();
   final controller = StreamController<String>();
@@ -28,15 +28,13 @@ class _HomePageState extends State<HomePage> {
   String? message;
   String? note;
 
-
-
   @override
   void initState() {
     super.initState();
     service.getPhoneModelAndroid().then((value) => model = value!);
     repository.getContacts().then((value) {
       value.forEach(
-            (element) {
+        (element) {
           contacts.add(element.displayName!);
           element.displayName!;
           print(element.displayName);
@@ -87,19 +85,18 @@ class _HomePageState extends State<HomePage> {
       case 'clear':
         print('cd chosen');
         setState(() {
-          text='';
+          text = '';
         });
         past.clear();
         break;
       default:
-        if(input.text.contains('cd')){
+        if (input.text.contains('cd')) {
           setState(() {
-            text = '${input.text.replaceAll('cd','')}';
+            text = '${input.text.replaceAll('cd', '')}';
           });
           print('cd chosen');
           past.add('${Strings.cdText} ${input.text}');
-        }
-        else if (input.text.contains('msg')) {
+        } else if (input.text.contains('msg')) {
           repository.saveMessage(input.text);
           text = 'messages/';
           print('message chosen');
@@ -117,19 +114,15 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
+          scrollDirection: Axis.vertical,
           physics: ScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
           child: FutureBuilder(
-              future: service
-                  .getIpAddress()
-                  .then((value) => ip = value),
+              future: service.getIpAddress().then((value) => ip = value),
               builder: (context, AsyncSnapshot<String> snapshot) {
                 return Container(
                     padding: EdgeInsets.all(10),
@@ -213,7 +206,7 @@ class _HomePageState extends State<HomePage> {
                             keyboardType: TextInputType.text,
                             maxLines: 5,
                             onEditingComplete: () {
-                              if(input.text.isNotEmpty){
+                              if (input.text.isNotEmpty) {
                                 controller.add('-> ~ ${input.text}');
                                 submit(input);
                                 input.clear();
@@ -224,6 +217,11 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(color: Colors.white),
                             cursorColor: Colors.greenAccent,
                             decoration: InputDecoration(
+                                border: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                disabledBorder: InputBorder.none,
                                 prefixText: '-> ~$text',
                                 hintStyle:
                                     TextStyle(color: Colors.greenAccent)),
