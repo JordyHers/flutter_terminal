@@ -34,7 +34,7 @@ class Repository implements Rep {
   @override
   Future<String?> getMessage(int index) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var messageList = await prefs.getStringList('Messages');
+    var messageList =  prefs.getStringList('Messages');
     print(messageList![index]);
     return messageList.last;
   }
@@ -42,12 +42,12 @@ class Repository implements Rep {
   @override
   Future<String?> getNotes(int index) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var noteList = await prefs.getStringList('Notes');
+    var noteList =  prefs.getStringList('Notes');
     print(noteList![index]);
     return noteList.last;
   }
 
-  @override
+  
   Future<List<Contact>> getContacts() async {
     List<Contact> contacts;
     var status = await Permission.contacts.status;
