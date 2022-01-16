@@ -10,7 +10,6 @@ abstract class Rep {
   Future<void> saveNotes(String note) async {}
 
   Future<String?> getNotes(int index) async {}
-
 }
 
 class Repository implements Rep {
@@ -24,6 +23,7 @@ class Repository implements Rep {
     await prefs.setStringList('Messages', messages);
   }
 
+//Function to save the notes
   @override
   Future<void> saveNotes(String note) async {
     notes.add(note);
@@ -31,32 +31,35 @@ class Repository implements Rep {
     await prefs.setStringList('Notes', notes);
   }
 
+  //Function to get Messages
   @override
   Future<String?> getMessage(int index) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var messageList =  prefs.getStringList('Messages');
+    var messageList = prefs.getStringList('Messages');
     print(messageList![index]);
     return messageList.last;
   }
 
+  //Function to get the Notes
   @override
   Future<String?> getNotes(int index) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var noteList =  prefs.getStringList('Notes');
+    var noteList = prefs.getStringList('Notes');
     print(noteList![index]);
     return noteList.last;
   }
 
-  
+  //Function to get Contacts
   Future<List<Contact>> getContacts() async {
     List<Contact> contacts;
     var status = await Permission.contacts.status;
     if (status.isGranted) {
-         contacts = await ContactsService.getContacts();
-    } else{
+      contacts = await ContactsService.getContacts();
+    } else {
       await Permission.contacts.request();
-      contacts = await ContactsService.getContacts().whenComplete(() => print('ACCESS HAS BEEN GRANTED'));
-       }
+      contacts = await ContactsService.getContacts()
+          .whenComplete(() => print('ACCESS HAS BEEN GRANTED'));
+    }
     return contacts;
   }
 }
