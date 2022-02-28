@@ -13,10 +13,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Terminal',
       theme: ThemeData(
-        primaryColor: Colors.black,
-        fontFamily: 'UbuntuMono-Regular',
-        textSelectionColor: Colors.white
-      ),
+          primaryColor: Colors.black,
+          fontFamily: 'UbuntuMono-Regular',
+          textSelectionTheme:
+              TextSelectionThemeData(selectionColor: Colors.white)),
       home: HomePage(),
     );
   }

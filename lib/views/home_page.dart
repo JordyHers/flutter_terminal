@@ -1,11 +1,11 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:terminal/constants/strings.dart';
-import 'package:terminal/repository/repository.dart';
-import 'package:terminal/service/service.dart';
+
+
+import 'calculator_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,15 +18,8 @@ class _HomePageState extends State<HomePage> {
   DateTime dt = new DateTime.now();
   final input = TextEditingController();
   final controller = StreamController<String>();
-  List<String> past = [];
-  List<String> contacts = [];
-  final service = Service();
-  final repository = Repository();
-  String text = '';
-  String ip = '';
-  String model = '';
-  String? message;
-  String? note;
+
+
 
   @override
   void initState() {
@@ -44,74 +37,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> submit(TextEditingController input) async {
-    switch (input.text) {
-      case 'h':
-        setState(() {
-          text = 'help/';
-        });
-        print('help chosen');
-        past.add(Strings.helpText);
-        break;
-      case 'ls':
-        print('ls chosen');
-        setState(() {
-          text = 'ls/';
-        });
-        past.add(Strings.lsText);
-        break;
-      case 'cts':
-        setState(() {
-          text = 'contacts/';
-        });
-        print('contacts chosen');
-        past.addAll(contacts);
-        break;
-      case 'set':
-        past.add(model);
-        setState(() {
-          text = 'settings/';
-        });
-        print('settings chosen');
-        past.add(Strings.setText);
-        break;
-      case 'get-m':
-        await repository.getMessage(0).then((value) => message = value!);
-        past.add(message!);
-        break;
-      case 'get-n':
-        await repository.getNotes(0).then((value) => note = value!);
-        past.add(note!);
-        break;
-      case 'clear':
-        print('cd chosen');
-        setState(() {
-          text = '';
-        });
-        past.clear();
-        break;
-      default:
-        if (input.text.contains('cd')) {
-          setState(() {
-            text = '${input.text.replaceAll('cd', '')}';
-          });
-          print('cd chosen');
-          past.add('${Strings.cdText} ${input.text}');
-        } else if (input.text.contains('msg')) {
-          repository.saveMessage(input.text);
-          text = 'messages/';
-          print('message chosen');
-          past.add(Strings.msgText);
-        } else if (input.text.contains('not')) {
-          repository.saveNotes(input.text);
-          text = 'notes/';
-          print('notes chosen');
-          past.add(Strings.noteText);
-        } else {
-          past.add(Strings.errorText);
-        }
-
-        break;
-    }
+   var result = await repository.handleRequest(input);
+   if (result == 'clc'){
+     Navigator.push(context, MaterialPageRoute(builder: (context) => CalculatorWidgetPage()));
+   }
+    setState(() {});
   }
 
   @override

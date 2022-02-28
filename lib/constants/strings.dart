@@ -1,14 +1,30 @@
+import 'package:terminal/service/service.dart';
+import 'package:terminal/repository/repository.dart';
 
+
+// ______________________ Constants ___________________
+final service = Service();
+final repository = Repository();
+List<String> past = [];
+List<String> contacts = [];
+String text = '';
+String ip = '';
+String model = '';
+String? message;
+String? note;
 
 class Strings{
   static final helpText = (
       "\n"
-      " - h --- for help \n"
-      " - ls --- display the list of files \n "
+      "Welcome to our "
+      "- h --- for help \n"
+      "- ls --- display the list of files \n "
+      "- clc --- open calculator \n "
       "- cd --- enter a folder \n "
       "- cts --- display contacts \n "
       "- msg --- send message  \n "
       "- not --- take notes \n "
+      "- jks --- Find the best jokes ever \n "
       "- clear --- clear terminal \n "
       "- set --- settings of the app \n "
       "- get-m --- display messages\n "
