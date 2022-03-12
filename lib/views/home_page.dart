@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:terminal/constants/strings.dart';
+import 'package:terminal/models/jokes_model.dart';
 
 
 import 'calculator_page.dart';
@@ -18,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   DateTime dt = new DateTime.now();
   final input = TextEditingController();
   final controller = StreamController<String>();
+  List<Jokes>? fetchJokes = [];
 
 
 
@@ -25,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     service.getPhoneModelAndroid().then((value) => model = value!);
+    //service.getJokesFromApi().then((value) => fetchJokes = value.cast<Jokes>());
     repository.getContacts().then((value) {
       value.forEach(
         (element) {
@@ -40,6 +43,9 @@ class _HomePageState extends State<HomePage> {
    var result = await repository.handleRequest(input);
    if (result == 'clc'){
      Navigator.push(context, MaterialPageRoute(builder: (context) => CalculatorWidgetPage()));
+   }
+   else if (result == 'jks'){
+     print(fetchJokes!);
    }
     setState(() {});
   }

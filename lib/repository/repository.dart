@@ -22,7 +22,7 @@ class Repository implements Rep {
   List<String> notes = [];
 
   @override
-  Future<void> saveMessage(String message) async {
+  Future saveMessage(String message) async {
     messages.add(message);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setStringList('Messages', messages);
@@ -30,7 +30,7 @@ class Repository implements Rep {
 
 //Function to save the notes
   @override
-  Future<void> saveNotes(String note) async {
+  Future saveNotes(String note) async {
     notes.add(note);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setStringList('Notes', notes);

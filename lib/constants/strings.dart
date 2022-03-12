@@ -5,7 +5,7 @@ import 'package:terminal/repository/repository.dart';
 // ______________________ Constants ___________________
 final service = Service();
 final repository = Repository();
-List<String> past = [];
+List<String?> past = [];
 List<String> contacts = [];
 String text = '';
 String ip = '';
