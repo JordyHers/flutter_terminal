@@ -7,6 +7,7 @@ final service = Service();
 final repository = Repository();
 List<String?> past = [];
 List<String> contacts = [];
+String homePageCurrentTitle = '☺️ Welcome Dear User';
 String text = '';
 String ip = '';
 String model = '';
@@ -75,8 +76,22 @@ class Strings{
 
 
   ///_____________UI________________
-  static final header = " (　-_･) ︻デ═一 ▸    ¯\\_(ツ)_/¯";
-  static final headerText = '-h to get list of commands';
+  static final headers =[" (　-_･) ︻デ═一 ▸    ¯\\_(ツ)_/¯", ' - Press h to see all Commands ⛺️ ',
+      "- ls --- display the list of files 📁",
+      "- clc --- open calculator ✖️",
+      "- cd --- enter a folder 🗂 ",
+      "- cts --- display contacts 🙎🏾‍",
+      "- msg --- send message  💬",
+      "- not --- take notes 📝 ",
+      "- jks --- Find the best jokes ever  🥳",
+      "- clear --- clear terminal 🆑 ",
+      "- set --- settings of the app ⌥",
+      "- get-m --- display messages 🗃",
+      "- get-n --- display notes 📬",
+
+
+  ] ;
+  static final headerText = '☺️ Welcome Dear User - h help';
 
 
 

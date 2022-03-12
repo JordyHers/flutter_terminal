@@ -11,8 +11,6 @@ import 'package:terminal/views/home_page.dart';
 import 'mocks_test.dart';
 
 
-
-
 void main() {
   group('Test Handle All Requests', () {
     final rep = Repository();
@@ -45,7 +43,7 @@ void main() {
     });
 
 
-    testWidgets('Test Calculator',(WidgetTester tester) async {
+    testWidgets('When clc command is entered navigates to Calculator page',(WidgetTester tester) async {
       ///Here we setUp the the mockObserver
       final mockObserver = MockNavigatorObserver();
       await tester.pumpWidget(MaterialApp(
