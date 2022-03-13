@@ -9,7 +9,7 @@
     <application
         android:label="terminal"
        android:requestLegacyExternalStorage="true"
-       android:icon="@mipmap/ic_launcher">
+       android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

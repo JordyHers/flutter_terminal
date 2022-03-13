@@ -49,12 +49,12 @@ class Strings{
       " - PHONE MODEL\n"
       " - CHANGE TEXT COLOR \n"
       " - CHANGE TEXT FONT \n "
-      "- CHANGE TEXT SIZE \n "
-      "- SET PROFILE\n "
-      "- LOG OUT\n "
-      "- DARK MODE / LIGHT MODE\n "
-      "- HIDDEN FEATURES \n "
-      "- ACTIVATE DEVELOPER MODE\n "
+      " - CHANGE TEXT SIZE \n "
+      " - SET PROFILE\n "
+      " - LOG OUT\n "
+      " - DARK MODE / LIGHT MODE\n "
+      " - HIDDEN FEATURES \n "
+      " - ACTIVATE DEVELOPER MODE\n "
       "\n"
       "_____________________");
   static final lsText = ("\n"
@@ -76,7 +76,9 @@ class Strings{
 
 
   ///_____________UI________________
-  static final headers =[" (　-_･) ︻デ═一 ▸    ¯\\_(ツ)_/¯", ' - Press h to see all Commands ⛺️ ',
+  static final headers =[
+    " (　-_･) ︻デ═一 ▸    ¯\\_(ツ)_/¯",
+    ' - Press h to see all Commands ⛺️ ',
       "- ls --- display the list of files 📁",
       "- clc --- open calculator ✖️",
       "- cd --- enter a folder 🗂 ",
