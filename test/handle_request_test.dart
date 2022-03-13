@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:terminal/constants/strings.dart';
 import 'package:terminal/repository/repository.dart';
 import 'package:terminal/views/calculator_page.dart';
@@ -17,7 +15,11 @@ void main() {
     text = '';
     TextEditingController texts = TextEditingController();
 
-
+   test ('Test wrong command entered',() async {
+     texts.text = 'Vsrtes';
+     await rep.handleRequest(texts);
+     expect(text, '🛑');
+   });
     test('Test Help Text',() async {
       texts.text = 'h';
       await rep.handleRequest(texts);

@@ -123,6 +123,7 @@ class Repository implements Rep {
           past.add(Strings.noteText);
           return text = 'notes/';
         } else {
+          text="🛑";
           past.add(Strings.errorText);
         }
         break;

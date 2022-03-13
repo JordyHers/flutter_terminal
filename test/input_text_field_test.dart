@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:terminal/constants/strings.dart';
 import 'package:terminal/views/home_page.dart';
 
 
