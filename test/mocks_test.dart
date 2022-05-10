@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:terminal/repository/repository.dart';
+import 'package:terminal/service/service.dart';
 
 class MockNavigatorObserver extends Mock implements NavigatorObserver {}
-class MockRepository extends Mock implements Repository{
+
+class MockRepository extends Mock implements Repository {
   List<String> messages = [];
   List<String> notes = [];
 
@@ -28,7 +30,9 @@ class MockRepository extends Mock implements Repository{
   //Function to get Messages
   @override
   Future<String?> getMessage(int index) async {
-    SharedPreferences.setMockInitialValues({'Messages':['This is a test message']});
+    SharedPreferences.setMockInitialValues({
+      'Messages': ['This is a test message']
+    });
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var messageList = prefs.getStringList('Messages');
     print(messageList?[index]);
@@ -44,5 +48,12 @@ class MockRepository extends Mock implements Repository{
     print(noteList![index]);
     return noteList.last;
   }
+}
 
+class MockService extends Mock implements Service {
+  Future<String> getIpAddress() async {
+    final ipv4 = await Future.value('98.207.254.136');
+    print(ipv4); // 98.207.254.136
+    return ipv4;
+  }
 }

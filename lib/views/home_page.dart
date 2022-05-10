@@ -26,11 +26,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    getTitle();
     timer = Timer.periodic(Duration(seconds: 5), (_) {
-      setState(() {
-        getTitle();
-        print('New title requested');
-      });
+      setState(() {});
     });
     service.getPhoneModelAndroid().then((value) => model = value!);
     //service.getJokesFromApi().then((value) => fetchJokes = value.cast<Jokes>());
@@ -69,13 +67,10 @@ class _HomePageState extends State<HomePage> {
           scrollDirection: Axis.vertical,
           physics: ScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
           child: FutureBuilder(
-              future: Future.wait([
-                service.getIpAddress().then((value) => ip = value),
-                getTitle()
-              ]),
+              future: Future.wait([getTitle()]),
               builder: (context, AsyncSnapshot<List<String>> snapshot) {
                 return Container(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(20),
                     margin: EdgeInsets.only(top: 50),
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -83,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Text(
                             'Last login: ${dt.day}/${dt.month}/${dt.year} ${dt.hour}:${dt.minute}:${dt.second} on console',
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.white, fontSize: 18),
                           ),
                           SizedBox(height: 10),
                           Text(
@@ -91,7 +86,7 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(color: Colors.white),
                           ),
                           Container(
-                            height: 70,
+                            height: 100,
                             padding: EdgeInsets.only(top: 5, left: 20),
                             margin: EdgeInsets.all(10),
                             decoration: BoxDecoration(
