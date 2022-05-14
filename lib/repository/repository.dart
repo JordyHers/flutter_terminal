@@ -1,6 +1,4 @@
-import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:terminal/constants/strings.dart';
 
@@ -13,8 +11,7 @@ abstract class Rep {
 
   Future<String?> getNotes(int index) async {}
 
-  Future<String?> handleRequest(TextEditingController input)async {}
-
+  Future<String?> handleRequest(TextEditingController input) async {}
 }
 
 class Repository implements Rep {
@@ -54,22 +51,8 @@ class Repository implements Rep {
     return noteList.last;
   }
 
-  //Function to get Contacts
-  Future<List<Contact>> getContacts() async {
-    List<Contact> contacts;
-    var status = await Permission.contacts.status;
-    if (status.isGranted) {
-      contacts = await ContactsService.getContacts();
-    } else {
-      await Permission.contacts.request();
-      contacts = await ContactsService.getContacts()
-          .whenComplete(() => print('ACCESS HAS BEEN GRANTED'));
-    }
-    return contacts;
-  }
-
-
   Future<String?> handleRequest(TextEditingController input) async {
+    input.text = input.text.toLowerCase();
     switch (input.text) {
       case 'h':
         text = 'help/';
@@ -79,14 +62,19 @@ class Repository implements Rep {
       case 'ls':
         print('ls chosen');
         past.add(Strings.lsText);
-        return text = 'ls/';
+        text = 'ls/';
+        break;
       case 'cts':
+        print(input.text);
         print('contacts chosen');
         past.addAll(contacts);
-        return text = 'contacts/';
+        print(past);
+        text = 'contacts/';
+        break;
       case 'jks':
         print('< jokes requested >');
-        return text = 'jokes/';
+        text = 'jokes/';
+        break;
       case 'clc':
         print('< calculator >');
         return 'clc';
@@ -94,7 +82,8 @@ class Repository implements Rep {
         past.add(model);
         print('settings chosen');
         past.add(Strings.setText);
-        return text = 'settings/';
+        text = 'settings/';
+        break;
       case 'get-m':
         await repository.getMessage(0).then((value) => message = value!);
         past.add(message!);
@@ -104,9 +93,10 @@ class Repository implements Rep {
         past.add(note!);
         break;
       case 'clear':
-        print('cd chosen');
+        print('list cleared');
         past.clear();
-        return  text = '';
+        text = '';
+        break;
       default:
         if (input.text.contains('cd')) {
           print('cd chosen');
@@ -123,10 +113,9 @@ class Repository implements Rep {
           past.add(Strings.noteText);
           return text = 'notes/';
         } else {
-          text="🛑";
+          text = "";
           past.add(Strings.errorText);
         }
-        break;
     }
   }
 }

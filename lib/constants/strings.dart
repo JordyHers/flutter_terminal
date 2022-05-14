@@ -1,12 +1,11 @@
-import 'package:terminal/service/service.dart';
 import 'package:terminal/repository/repository.dart';
-
+import 'package:terminal/service/service.dart';
 
 // ______________________ Constants ___________________
 final service = Service();
 final repository = Repository();
 List<String?> past = [];
-List<String> contacts = [];
+List<String?> contacts = [];
 String homePageCurrentTitle = '☺️ Welcome Dear User';
 String text = '';
 String ip = '';
@@ -14,12 +13,11 @@ String model = '';
 String? message;
 String? note;
 
-class Strings{
-  static final helpText = (
+class Strings {
+  static final helpText = ("\n"
       "\n"
-      "Welcome to our "
-      "- h --- for help \n"
-      "- ls --- display the list of files \n "
+      " - h --- for help \n"
+      " - ls --- display the list of files \n "
       "- clc --- open calculator \n "
       "- cd --- enter a folder \n "
       "- cts --- display contacts \n "
@@ -73,29 +71,21 @@ class Strings{
   static final noteText = ' > notes activated >> SAVED << ';
   static final errorText = 'NO COMMAND FOUND';
 
-
-
   ///_____________UI________________
-  static final headers =[
+  static final headers = [
     " (　-_･) ︻デ═一 ▸    ¯\\_(ツ)_/¯",
     ' - Press h to see all Commands ⛺️ ',
-      "- ls --- display the list of files 📁",
-      "- clc --- open calculator ✖️",
-      "- cd --- enter a folder 🗂 ",
-      "- cts --- display contacts 🙎🏾‍",
-      "- msg --- send message  💬",
-      "- not --- take notes 📝 ",
-      "- jks --- Find the best jokes ever  🥳",
-      "- clear --- clear terminal 🆑 ",
-      "- set --- settings of the app ⌥",
-      "- get-m --- display messages 🗃",
-      "- get-n --- display notes 📬",
-
-
-  ] ;
+    "- ls --- display the list of files 📁",
+    "- clc --- open calculator ✖️",
+    "- cd --- enter a folder 🗂 ",
+    "- cts --- display contacts 🙎🏾‍",
+    "- msg --- send message  💬",
+    "- not --- take notes 📝 ",
+    "- jks --- Find the best jokes ever  🥳",
+    "- clear --- clear terminal 🆑 ",
+    "- set --- settings of the app ⌥",
+    "- get-m --- display messages 🗃",
+    "- get-n --- display notes 📬",
+  ];
   static final headerText = '☺️ Welcome Dear User - h help';
-
-
-
-
 }

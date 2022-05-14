@@ -30,16 +30,6 @@ class _HomePageState extends State<HomePage> {
     timer = Timer.periodic(Duration(seconds: 5), (_) {
       setState(() {});
     });
-    service.getPhoneModelAndroid().then((value) => model = value!);
-    //service.getJokesFromApi().then((value) => fetchJokes = value.cast<Jokes>());
-    repository.getContacts().then((value) {
-      value.forEach(
-        (element) {
-          contacts.add(element.displayName!);
-          element.displayName!;
-        },
-      );
-    });
   }
 
   @override
@@ -83,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                           SizedBox(height: 10),
                           Text(
                             'IP Address: $ip',
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.white, fontSize: 16),
                           ),
                           Container(
                             height: 100,
@@ -126,13 +116,13 @@ class _HomePageState extends State<HomePage> {
                                             text: '-> ~',
                                             style: TextStyle(
                                                 color: Colors.greenAccent,
-                                                fontSize: 13),
+                                                fontSize: 16),
                                             children: <TextSpan>[
                                               TextSpan(
                                                   text: past[index],
                                                   style: TextStyle(
                                                       color: Colors.white,
-                                                      fontSize: 13,
+                                                      fontSize: 16,
                                                       fontFamily:
                                                           'UbuntuMono-Regular')),
                                             ],

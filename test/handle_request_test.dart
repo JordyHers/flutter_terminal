@@ -18,7 +18,7 @@ void main() {
    test ('Test wrong command entered',() async {
      texts.text = 'Vsrtes';
      await rep.handleRequest(texts);
-     expect(text, '🛑');
+     expect(text, '');
    });
 
     test('Test Help Text',() async {

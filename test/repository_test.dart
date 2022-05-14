@@ -27,7 +27,7 @@ void main(){
     //Get Message Function
     test('getMessage',()async {
       final result = await rep.getMessage(0);
-      expect(result == 'This is a test message',true);
+      expect(result == 'getMessage',true);
     },skip: false);
 
 

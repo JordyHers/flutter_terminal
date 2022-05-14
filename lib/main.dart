@@ -21,8 +21,17 @@ class MyApp extends StatelessWidget {
       home: FutureBuilder(
           future: Future.wait([
             service.getIpAddress().then((value) => ip = value),
+            //service.getPhoneModelAndroid().then((value) => model = value!),
+            service.getContacts().then((value) {
+              value.forEach(
+                (element) {
+                  contacts.add('${element.displayName!}');
+                  print('${element.displayName!}');
+                },
+              );
+            })
           ]),
-          builder: (context, AsyncSnapshot<List<String>> snapshot) {
+          builder: (context, AsyncSnapshot<List<String?>> snapshot) {
             if (snapshot.hasData) {
               print('ip address found: $ip');
               return HomePage();
