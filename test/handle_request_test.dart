@@ -6,7 +6,7 @@ import 'package:terminal/repository/repository.dart';
 import 'package:terminal/views/calculator_page.dart';
 import 'package:terminal/views/home_page.dart';
 
-import 'mocks_test.dart';
+import 'mocks.dart';
 
 
 void main() {

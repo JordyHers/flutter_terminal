@@ -4,7 +4,7 @@ import 'package:terminal/constants/strings.dart';
 import 'package:terminal/main.dart';
 import 'package:terminal/views/home_page.dart';
 
-import 'mocks_test.dart';
+import 'mocks.dart';
 
 void main() {
   testWidgets('Test Homepage Widgets', (WidgetTester tester) async {

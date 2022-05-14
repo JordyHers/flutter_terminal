@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:terminal/constants/strings.dart';
-import 'mocks_test.dart';
+import 'mocks.dart';
 
 
 
@@ -27,7 +27,7 @@ void main(){
     //Get Message Function
     test('getMessage',()async {
       final result = await rep.getMessage(0);
-      expect(result == 'getMessage',true);
+      expect(result == 'This is a test message',true);
     },skip: false);
 
 
