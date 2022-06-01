@@ -5,9 +5,9 @@
 ## Live demo
 
 
-
-
-https://user-images.githubusercontent.com/49708438/171373801-b0902cb5-afc3-4674-b1b5-5d64999c3f3a.mov
+![1](https://user-images.githubusercontent.com/49708438/171375411-4a3c90ec-cf76-4fbf-ba0f-2d04f4572ba3.gif)
+![2](https://user-images.githubusercontent.com/49708438/171375437-4d2592c7-00e7-4d19-9111-86282cb2dc70.gif)
+![3](https://user-images.githubusercontent.com/49708438/171375442-ddf160f4-073a-4a89-a86f-55f351eec87c.gif)
 
 
 
