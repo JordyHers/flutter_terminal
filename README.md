@@ -4,7 +4,7 @@
 
 ## Live demo
 
-<img width="715" alt="Onboarding Screen" src="https://user-images.githubusercontent.com/49708438/171375437-4d2592c7-00e7-4d19-9111-86282cb2dc70.gif"> 
+<img width="815" alt="Onboarding Screen" src="https://user-images.githubusercontent.com/49708438/171375437-4d2592c7-00e7-4d19-9111-86282cb2dc70.gif"> 
 
 ## Installation 
 
