@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 
-const kLs = Colors.greenAccent;
-const kCd = Colors.amber;
-const kContacts = Colors.blueAccent;
-const kMessages = Colors.red;
-const kNotes = Colors.indigoAccent;
-const kSettings = Colors.pinkAccent;
-const kClear = Colors.deepOrangeAccent;
+class AppColorTheme {  
+static  const kLs = Colors.greenAccent;
+static  const kCd = Colors.amber;
+static  const kContacts = Colors.blueAccent;
+static  const kMessages = Colors.red;
+static  const kNotes = Colors.indigoAccent;
+static  const kSettings = Colors.pinkAccent;
+static  const kClear = Colors.deepOrangeAccent;
+
+
+//new colors pallete
+// ["#363535","#C45049","#66AF57","#8BBCC5","#4C36C0"]
+
+
+}
