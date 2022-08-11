@@ -35,7 +35,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   mockito: ^5.1.0
   google_fonts: ^3.0.1
-  freezed: ^2.1.0+1
+  # freezed: ^2.1.0+1
   flutter_bloc: ^8.0.1
 
 
