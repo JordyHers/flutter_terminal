@@ -17,4 +17,4 @@ static const kTangerine = Color(0xfff18805);
 static const kFlame = Color(0xffd95d39);
 static const kOxfordBlue = Color(0xff0e1428);
 static const kMorningBlue = Color(0xff7b9e89);
-}
+}// ["#363535","#C45049","#66AF57","#8BBCC5","#4C36C0"]

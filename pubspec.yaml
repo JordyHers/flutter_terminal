@@ -35,6 +35,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   mockito: ^5.1.0
   google_fonts: ^3.0.1
+  # freezed: ^2.1.0+1
+  flutter_bloc: ^8.0.1
 
 
 flutter_icons:
@@ -48,6 +50,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_simple_calculator: ^2.0.1
+  build_runner: ^2.2.0
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
